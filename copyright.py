@@ -156,7 +156,7 @@ def AutoDelete():
        try:
           hue = RiZoeL.send_message(i, random.choice(DELETE_MESSAGE))
           RiZoeL.delete_messages(i, message_list, revoke=True)
-          asyncio.sleep(1)
+          await asyncio.sleep(1)
           hue.delete()
           GROUP_MEDIAS[i].delete()
        except Exception:
