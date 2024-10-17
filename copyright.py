@@ -6,6 +6,7 @@ import time
 import datetime
 import random 
 import asyncio
+import sleep
 
 from pyrogram import filters, Client, idle
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
@@ -150,7 +151,6 @@ def AutoDelete():
        return
 
     for i in MEDIA_GROUPS:
-       addchat(i)
        if i in DISABLE_CHATS:
          return
        message_list = list(GROUP_MEDIAS.get(i))
