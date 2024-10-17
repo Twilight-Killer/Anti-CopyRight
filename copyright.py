@@ -5,6 +5,7 @@ import sys
 import time
 import datetime
 import random
+import asyncio
 
 from asyncio import sleep
 from pyrogram import filters, Client, idle
@@ -156,8 +157,8 @@ def AutoDelete():
        try:
           hue = RiZoeL.send_message(i, random.choice(DELETE_MESSAGE))
           RiZoeL.delete_messages(i, message_list, revoke=True)
-          await asyncio.sleep(1)
           hue.delete()
+          asyncio.sleep(e.value)
           GROUP_MEDIAS[i].delete()
        except Exception:
           pass
