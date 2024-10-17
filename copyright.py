@@ -4,10 +4,9 @@ import re
 import sys
 import time
 import datetime
-import random 
-import asyncio
-import sleep
+import random
 
+from asyncio import sleep
 from pyrogram import filters, Client, idle
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ChatMemberStatus, ChatType
