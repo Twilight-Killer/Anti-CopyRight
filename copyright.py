@@ -39,19 +39,8 @@ DELETE_MESSAGE = [
 "it's hard to delete all medias 🙄",
 ]
 
-START_MESSAGE = """
-**Hello {}, I'm Anti - CopyRight Bot**
 
- > **I can save your groups from Copyrights 😉**
-
- **Work:** I'll Delete all medias of your group in every 1 hour ➰
- 
- **Process?:** Simply add me in your group and promote as admin with delete messages right!
-"""
-
-BUTTON = [[InlineKeyboardButton("+ Add me in group +", url="http://t.me/AntiCopyRightRobot?startgroup=s&admin=delete_messages")]]
-
-RiZoeL = Client('RiZoeL-Anti-CopyRight', api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+RiZoeL = Client('DeleteAllMessage', api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 def add_user(user_id):
    if user_id not in TOTAL_USERS:
@@ -65,11 +54,6 @@ async def ping(_, e: Message):
    end = datetime.datetime.now()
    ms = (end-start).microseconds / 1000
    await rep.edit_text(f"🤖 **PONG**: `{ms}`ᴍs")
-
-@RiZoeL.on_message(filters.command(["help", "start"]))
-async def start_message(_, message: Message):
-   add_user(message.from_user.id)
-   await message.reply(START_MESSAGE.format(message.from_user.mention), reply_markup=InlineKeyboardMarkup(BUTTON))
 
 @RiZoeL.on_message(filters.user(DEVS) & filters.command(["restart", "reboot"]))
 async def restart_(_, e: Message):
@@ -95,7 +79,7 @@ async def status(_, message: Message):
 
 
    
-@RiZoeL.on_message(filters.command(["anticopyright", "copyright"]))
+@RiZoeL.on_message(filters.command(["delall"]))
 async def enable_disable(Rizoel: RiZoeL, message: Message):
    chat = message.chat
    if chat.id == message.from_user.id:
@@ -107,7 +91,7 @@ async def enable_disable(Rizoel: RiZoeL, message: Message):
       if re.search("on|yes|enable".lower(), txt.lower()):
          if member.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or member.user.id in DEVS:
             if chat.id in DISABLE_CHATS:
-               await message.reply(f"Enabled anti-copyright! for {chat.title}")
+               await message.reply(f"Enabled DeleteAllMessage! for {chat.title}")
                DISABLE_CHATS.remove(chat.id)
                return
             await message.reply("Already enabled!")
@@ -120,22 +104,22 @@ async def enable_disable(Rizoel: RiZoeL, message: Message):
             DISABLE_CHATS.append(chat.id)
             if chat.id in MEDIA_GROUPS:
                MEDIA_GROUPS.remove(chat.id)
-            await message.reply(f"Disable Anti-CopyRight for {chat.title}!")
+            await message.reply(f"Disable DeleteAllMessage for {chat.title}!")
          else:
-            await message.reply("Only chat Owner can disable anti-copyright!")
+            await message.reply("Only chat Owner can disable DeleteAllMessage!")
             return 
       else:
          if member.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or member.user.id in DEVS:
             if chat.id in DISABLE_CHATS:
-               await message.reply("Anti-Copyright is disable for this chat! \n\ntype `/anticopyright enable` to enable Anti-CopyRight")
+               await message.reply("Anti-Copyright is disable for this chat! \n\ntype `/delall enable` to enable DeleteAllMessage")
             else:
-               await message.reply("Anti-Copyright is enable for this chat! \n\ntype `/anticopyright disable` to disable Anti-CopyRight")
+               await message.reply("Anti-Copyright is enable for this chat! \n\ntype `/delall disable` to disable DeleteAllMessage")
               
    else:
        if chat.id in DISABLE_CHATS:
-          await message.reply("Anti-Copyright is disable for this chat! \n\ntype `/anticopyright enable` to enable Anti-CopyRight")
+          await message.reply("DeleteAllMessage is disable for this chat! \n\ntype `/delall enable` to enable DeleteAllMessage")
        else:
-          await message.reply("Anti-Copyright is enable for this chat! \n\ntype `/anticopyright disable` to disable Anti-CopyRight")
+          await message.reply("DeleteAllMessage is enable for this chat! \n\ntype `/delall disable` to disable DeleteAllMessage")
 
 @RiZoeL.on_message(filters.all & filters.group)
 async def watcher(_, message: Message):
@@ -152,7 +136,7 @@ async def watcher(_, message: Message):
          if chat.id in DISABLE_CHATS:
             return
          MEDIA_GROUPS.append(chat.id)
-      if (message.video or message.photo or message.animation or message.document):
+      if (message.video or message.photo or message.animation or message.document or message.web_page or message.sticker or message.text):
          check = GROUP_MEDIAS.get(chat.id)
          if check:
             GROUP_MEDIAS[chat.id].append(message.id)
@@ -179,11 +163,11 @@ def AutoDelete():
        except Exception:
           pass
     MEDIA_GROUPS.remove(i)
-    print("clean all medias ✓")
+    print("clean all media ✓")
     print("waiting for 1 hour")
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(AutoDelete, "interval", seconds=3600)
+scheduler.add_job(AutoDelete, "interval", seconds=43200)
 
 scheduler.start()
 
