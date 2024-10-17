@@ -17,7 +17,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 API_ID = 6 
 API_HASH = "Abcdefg1234"
 BOT_TOKEN = ""
-DEVS = [1517994352, 1854700253]
+DEVS = [1696771874, 1128130156]
 
 ALL_GROUPS = []
 TOTAL_USERS = []
@@ -111,9 +111,9 @@ async def enable_disable(Rizoel: RiZoeL, message: Message):
       else:
          if member.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or member.user.id in DEVS:
             if chat.id in DISABLE_CHATS:
-               await message.reply("Anti-Copyright is disable for this chat! \n\ntype `/delall enable` to enable DeleteAllMessage")
+               await message.reply("DeleteAllMessage is disable for this chat! \n\ntype `/delall enable` to enable DeleteAllMessage")
             else:
-               await message.reply("Anti-Copyright is enable for this chat! \n\ntype `/delall disable` to disable DeleteAllMessage")
+               await message.reply("DeleteAllMessage is enable for this chat! \n\ntype `/delall disable` to disable DeleteAllMessage")
               
    else:
        if chat.id in DISABLE_CHATS:
@@ -136,7 +136,7 @@ async def watcher(_, message: Message):
          if chat.id in DISABLE_CHATS:
             return
          MEDIA_GROUPS.append(chat.id)
-      if (message.video or message.photo or message.animation or message.document or message.web_page or message.sticker or message.text):
+      if (message.video or message.video_note or message.photo or message.audio or message.voice or message.animation or message.document or message.contact or message.location or message.web_page or message.sticker or message.text):
          check = GROUP_MEDIAS.get(chat.id)
          if check:
             GROUP_MEDIAS[chat.id].append(message.id)
